@@ -41,7 +41,7 @@ public class VatRegistrationControllerTest
             CompanyName = "Test Company",
         };
 
-        var result =  await _vatRegistrationController.Post(request);
+        var result = await _vatRegistrationController.Post(request);
         result.Should().BeOfType<BadRequestObjectResult>();
     }
 
@@ -55,7 +55,7 @@ public class VatRegistrationControllerTest
             CompanyName = "Test Company",
         };
 
-        var result =  await _vatRegistrationController.Post(request);
+        var result = await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
         _mockedHttpClient.Verify(x => x.PostAsync(It.Is<string>(y => y == Constants.UkApi), It.IsAny<object>()));
@@ -71,7 +71,7 @@ public class VatRegistrationControllerTest
             CompanyName = "Test Company",
         };
 
-        var result =  await _vatRegistrationController.Post(request);
+        var result = await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
         _mockedQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.CsvQueue), It.IsAny<object>()));
@@ -87,7 +87,7 @@ public class VatRegistrationControllerTest
             CompanyName = "Test Company",
         };
 
-        var result =  await _vatRegistrationController.Post(request);
+        var result = await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
         _mockedQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.XmlQueue), It.IsAny<object>()));
