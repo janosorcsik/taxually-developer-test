@@ -1,23 +1,35 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Taxually.TechnicalTest.Clients.Interfaces;
 using Taxually.TechnicalTest.Controllers;
 using Taxually.TechnicalTest.Exceptions;
+using Taxually.TechnicalTest.Extensions;
 using Taxually.TechnicalTest.Models;
+using Taxually.TechnicalTest.Services;
 
 namespace Taxually.TechnicalTest.Tests;
 
 public class VatRegistrationControllerTest
 {
-    private readonly Mock<ITaxuallyHttpClient> _mockedTaxuallyHttpClient = new();
-    private readonly Mock<ITaxuallyQueueClient> _mockedTaxuallyQueueClient = new();
+    private readonly Mock<ITaxuallyHttpClient> _mockedHttpClient = new();
+    private readonly Mock<ITaxuallyQueueClient> _mockedQueueClient = new();
 
     private readonly VatRegistrationController _vatRegistrationController;
 
     public VatRegistrationControllerTest()
     {
-        _vatRegistrationController = new VatRegistrationController(_mockedTaxuallyHttpClient.Object, _mockedTaxuallyQueueClient.Object);
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddServices();
+
+        serviceCollection.AddTransient<ITaxuallyHttpClient>(_ => _mockedHttpClient.Object);
+        serviceCollection.AddTransient<ITaxuallyQueueClient>(_ => _mockedQueueClient.Object);
+
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var vatRegistrationHandlerFactory = new VatRegistrationHandlerFactory(serviceProvider);
+        _vatRegistrationController = new VatRegistrationController(vatRegistrationHandlerFactory);
     }
 
     [Fact]
@@ -48,7 +60,7 @@ public class VatRegistrationControllerTest
         var result =  await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
-        _mockedTaxuallyHttpClient.Verify(x => x.PostAsync(It.Is<string>(y => y == Constants.UkApi), It.IsAny<object>()));
+        _mockedHttpClient.Verify(x => x.PostAsync(It.Is<string>(y => y == Constants.UkApi), It.IsAny<object>()));
     }
 
     [Fact]
@@ -64,7 +76,7 @@ public class VatRegistrationControllerTest
         var result =  await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
-        _mockedTaxuallyQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.CsvQueue), It.IsAny<object>()));
+        _mockedQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.CsvQueue), It.IsAny<object>()));
     }
 
     [Fact]
@@ -80,6 +92,6 @@ public class VatRegistrationControllerTest
         var result =  await _vatRegistrationController.Post(request);
         result.Should().BeOfType<OkResult>();
 
-        _mockedTaxuallyQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.XmlQueue), It.IsAny<object>()));
+        _mockedQueueClient.Verify(x => x.EnqueueAsync(It.Is<string>(y => y == Constants.XmlQueue), It.IsAny<object>()));
     }
 }
