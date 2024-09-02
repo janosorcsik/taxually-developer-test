@@ -44,11 +44,12 @@ namespace Taxually.TechnicalTest.Controllers
                         // Queue xml doc to be processed
                         await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
                     }
+
                     break;
                 default:
                     throw new Exception("Country not supported");
-
             }
+
             return Ok();
         }
     }
