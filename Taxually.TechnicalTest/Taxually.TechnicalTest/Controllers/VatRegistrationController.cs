@@ -24,7 +24,7 @@ namespace Taxually.TechnicalTest.Controllers
                     await httpClient.PostAsync("https://api.uktax.gov.uk", request);
                     break;
                 case "FR":
-                    // France requires an excel spreadsheet to be uploaded to register for a VAT number
+                    // France requires an Excel spreadsheet to be uploaded to register for a VAT number
                     var csvBuilder = new StringBuilder();
                     csvBuilder.AppendLine("CompanyName,CompanyId");
                     csvBuilder.AppendLine($"{request.CompanyName},{request.CompanyId}");
