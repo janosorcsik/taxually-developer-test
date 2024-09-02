@@ -6,7 +6,7 @@ using Taxually.TechnicalTest.Clients.Interfaces;
 using Taxually.TechnicalTest.Controllers;
 using Taxually.TechnicalTest.Extensions;
 using Taxually.TechnicalTest.Models;
-using Taxually.TechnicalTest.Services;
+using Taxually.TechnicalTest.Services.Handlers;
 
 namespace Taxually.TechnicalTest.Tests;
 

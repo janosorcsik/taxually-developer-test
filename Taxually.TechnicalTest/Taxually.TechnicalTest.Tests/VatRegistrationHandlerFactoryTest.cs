@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Taxually.TechnicalTest.Exceptions;
 using Taxually.TechnicalTest.Extensions;
 using Taxually.TechnicalTest.Models;
-using Taxually.TechnicalTest.Services;
+using Taxually.TechnicalTest.Services.Handlers;
 
 namespace Taxually.TechnicalTest.Tests;
 

@@ -1,6 +1,7 @@
 using Taxually.TechnicalTest.Clients;
 using Taxually.TechnicalTest.Clients.Interfaces;
-using Taxually.TechnicalTest.Services;
+using Taxually.TechnicalTest.Services.Handlers;
+using Taxually.TechnicalTest.Services.Processors;
 
 namespace Taxually.TechnicalTest.Extensions;
 
@@ -15,6 +16,8 @@ public static class ServiceCollectionExtensions
 
         services.AddVatRegistrationHandlers();
 
+        services.AddVatRegistrationProcessors();
+
         return services;
     }
 
@@ -23,5 +26,11 @@ public static class ServiceCollectionExtensions
         services.AddTransient<DeVatRegistrationHandler>();
         services.AddTransient<FrVatRegistrationHandler>();
         services.AddTransient<GbVatRegistrationHandler>();
+    }
+
+    private static void AddVatRegistrationProcessors(this IServiceCollection services)
+    {
+        services.AddSingleton<CsvVatRegistrationProcessor>();
+        services.AddSingleton<XmlVatRegistrationProcessor>();
     }
 }

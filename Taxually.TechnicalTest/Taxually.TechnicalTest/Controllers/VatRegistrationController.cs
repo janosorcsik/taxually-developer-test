@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Taxually.TechnicalTest.Exceptions;
 using Taxually.TechnicalTest.Models;
-using Taxually.TechnicalTest.Services;
+using Taxually.TechnicalTest.Services.Handlers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -2,7 +2,7 @@ using Taxually.TechnicalTest.Clients.Interfaces;
 using Taxually.TechnicalTest.Models;
 using Taxually.TechnicalTest.Services.Interfaces;
 
-namespace Taxually.TechnicalTest.Services;
+namespace Taxually.TechnicalTest.Services.Handlers;
 
 public class GbVatRegistrationHandler : IVatRegistrationHandler
 {
