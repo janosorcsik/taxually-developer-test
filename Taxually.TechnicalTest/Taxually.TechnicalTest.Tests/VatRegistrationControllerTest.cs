@@ -32,11 +32,11 @@ public class VatRegistrationControllerTest
     }
 
     [Fact]
-    public async Task When_Called_With_InValid_Country_Then_Returns_BadRequest()
+    public async Task When_Called_With_Invalid_Country_Then_Returns_BadRequest()
     {
         var request = new VatRegistrationRequest
         {
-            Country = "HU",
+            Country = "Invalid",
             CompanyId = Guid.NewGuid().ToString(),
             CompanyName = "Test Company",
         };

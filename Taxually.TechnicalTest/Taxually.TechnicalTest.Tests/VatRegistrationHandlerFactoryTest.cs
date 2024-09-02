@@ -2,7 +2,6 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Taxually.TechnicalTest.Exceptions;
 using Taxually.TechnicalTest.Extensions;
-using Taxually.TechnicalTest.Models;
 using Taxually.TechnicalTest.Services.Handlers;
 
 namespace Taxually.TechnicalTest.Tests;
@@ -24,15 +23,12 @@ public class VatRegistrationHandlerFactoryTest
     [Fact]
     public void When_Called_With_Invalid_Country_Then_Throws_Exception()
     {
-        var request = new VatRegistrationRequest
-        {
-            Country = "Invalid",
-        };
+        const string country = "Invalid";
 
-        var action = () => _vatRegistrationHandlerFactory.CreateHandler(request);
+        var action = () => _vatRegistrationHandlerFactory.CreateHandler(country);
 
         action.Should().Throw<CountryNotSupportedException>()
-            .And.Message.Should().Contain(request.Country);
+            .And.Message.Should().Contain(country);
     }
 
     [Theory]
@@ -41,12 +37,7 @@ public class VatRegistrationHandlerFactoryTest
     [InlineData("GB", typeof(GbVatRegistrationHandler))]
     public void When_Called_With_Valid_Country_Then_Returns_Handler(string country, Type handlerType)
     {
-        var request = new VatRegistrationRequest
-        {
-            Country = country,
-        };
-
-        var handler = _vatRegistrationHandlerFactory.CreateHandler(request);
+        var handler = _vatRegistrationHandlerFactory.CreateHandler(country);
 
         handler.Should().BeOfType(handlerType);
     }

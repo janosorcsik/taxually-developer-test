@@ -1,5 +1,4 @@
 using Taxually.TechnicalTest.Exceptions;
-using Taxually.TechnicalTest.Models;
 using Taxually.TechnicalTest.Services.Interfaces;
 
 namespace Taxually.TechnicalTest.Services.Handlers;
@@ -20,13 +19,13 @@ public class VatRegistrationHandlerFactory
         _serviceProvider = serviceProvider;
     }
 
-    public IVatRegistrationHandler CreateHandler(VatRegistrationRequest request)
+    public IVatRegistrationHandler CreateHandler(string country)
     {
-        if (HandlerTypes.TryGetValue(request.Country, out var handlerType))
+        if (HandlerTypes.TryGetValue(country, out var handlerType))
         {
             return (IVatRegistrationHandler)_serviceProvider.GetRequiredService(handlerType);
         }
 
-        throw new CountryNotSupportedException(request.Country);
+        throw new CountryNotSupportedException(country);
     }
 }

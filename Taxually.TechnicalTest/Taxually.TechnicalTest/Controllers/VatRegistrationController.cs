@@ -26,7 +26,7 @@ public class VatRegistrationController : ControllerBase
     {
         try
         {
-            var handler = _vatRegistrationHandlerFactory.CreateHandler(request);
+            var handler = _vatRegistrationHandlerFactory.CreateHandler(request.Country);
 
             await handler.Handle(request);
         }
