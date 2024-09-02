@@ -21,7 +21,6 @@ public class VatRegistrationController : ControllerBase
     /// <summary>
     /// Registers a company for a VAT number in a given country
     /// </summary>
-    /// <exception cref="CountryNotSupportedException"></exception>
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] VatRegistrationRequest request)
     {
