@@ -35,11 +35,11 @@ namespace Taxually.TechnicalTest.Controllers
                     break;
                 case "DE":
                     // Germany requires an XML document to be uploaded to register for a VAT number
-                    await using (var stringwriter = new StringWriter())
+                    await using (var stringWriter = new StringWriter())
                     {
                         var serializer = new XmlSerializer(typeof(VatRegistrationRequest));
-                        serializer.Serialize(stringwriter, request);
-                        var xml = stringwriter.ToString();
+                        serializer.Serialize(stringWriter, request);
+                        var xml = stringWriter.ToString();
                         var xmlQueueClient = new TaxuallyQueueClient();
                         // Queue xml doc to be processed
                         await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
