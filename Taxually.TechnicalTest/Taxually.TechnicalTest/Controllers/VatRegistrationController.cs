@@ -25,9 +25,16 @@ public class VatRegistrationController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] VatRegistrationRequest request)
     {
-        var handler = _vatRegistrationHandlerFactory.CreateHandler(request);
+        try
+        {
+            var handler = _vatRegistrationHandlerFactory.CreateHandler(request);
 
-        await handler.Handle(request);
+            await handler.Handle(request);
+        }
+        catch (CountryNotSupportedException e)
+        {
+            return BadRequest(e.Message);
+        }
 
         return Ok();
     }

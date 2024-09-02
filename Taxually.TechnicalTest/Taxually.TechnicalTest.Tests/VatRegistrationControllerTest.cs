@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Taxually.TechnicalTest.Clients.Interfaces;
 using Taxually.TechnicalTest.Controllers;
-using Taxually.TechnicalTest.Exceptions;
 using Taxually.TechnicalTest.Extensions;
 using Taxually.TechnicalTest.Models;
 using Taxually.TechnicalTest.Services;
@@ -33,7 +32,7 @@ public class VatRegistrationControllerTest
     }
 
     [Fact]
-    public async Task When_Called_With_InValid_Country_Then_Throws_Exception()
+    public async Task When_Called_With_InValid_Country_Then_Returns_BadRequest()
     {
         var request = new VatRegistrationRequest
         {
@@ -42,9 +41,8 @@ public class VatRegistrationControllerTest
             CompanyName = "Test Company",
         };
 
-        Func<Task> action = () => _vatRegistrationController.Post(request);
-
-        await action.Should().ThrowAsync<CountryNotSupportedException>();
+        var result =  await _vatRegistrationController.Post(request);
+        result.Should().BeOfType<BadRequestObjectResult>();
     }
 
     [Fact]
