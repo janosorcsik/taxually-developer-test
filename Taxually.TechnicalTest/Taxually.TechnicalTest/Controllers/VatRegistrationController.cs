@@ -35,7 +35,7 @@ namespace Taxually.TechnicalTest.Controllers
                     break;
                 case "DE":
                     // Germany requires an XML document to be uploaded to register for a VAT number
-                    using (var stringwriter = new StringWriter())
+                    await using (var stringwriter = new StringWriter())
                     {
                         var serializer = new XmlSerializer(typeof(VatRegistrationRequest));
                         serializer.Serialize(stringwriter, request);
