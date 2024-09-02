@@ -363,3 +363,6 @@ FodyWeavers.xsd
 
 # JetBrains IDE
 .idea/
+
+# macOS files
+.DS_Store
