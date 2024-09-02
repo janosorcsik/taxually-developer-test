@@ -8,6 +8,13 @@ public class VatRegistrationHandlerFactory
 {
     private readonly IServiceProvider _serviceProvider;
 
+    private static readonly Dictionary<string, Type> HandlerTypes = new()
+    {
+        { "DE", typeof(DeVatRegistrationHandler) },
+        { "FR", typeof(FrVatRegistrationHandler) },
+        { "GB", typeof(GbVatRegistrationHandler) },
+    };
+
     public VatRegistrationHandlerFactory(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -15,12 +22,11 @@ public class VatRegistrationHandlerFactory
 
     public IVatRegistrationHandler CreateHandler(VatRegistrationRequest request)
     {
-        return request.Country switch
+        if (HandlerTypes.TryGetValue(request.Country, out var handlerType))
         {
-            "GB" => _serviceProvider.GetRequiredService<GbVatRegistrationHandler>(),
-            "FR" => _serviceProvider.GetRequiredService<FrVatRegistrationHandler>(),
-            "DE" => _serviceProvider.GetRequiredService<DeVatRegistrationHandler>(),
-            _ => throw new CountryNotSupportedException(request.Country)
-        };
+            return (IVatRegistrationHandler)_serviceProvider.GetRequiredService(handlerType);
+        }
+
+        throw new CountryNotSupportedException(request.Country);
     }
 }
