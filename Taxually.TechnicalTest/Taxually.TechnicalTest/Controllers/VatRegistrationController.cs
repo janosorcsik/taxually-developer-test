@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Taxually.TechnicalTest.Clients.Interfaces;
+using Taxually.TechnicalTest.Exceptions;
 using Taxually.TechnicalTest.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,6 +25,7 @@ public class VatRegistrationController : ControllerBase
     /// <summary>
     /// Registers a company for a VAT number in a given country
     /// </summary>
+    /// <exception cref="CountryNotSupportedException"></exception>
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] VatRegistrationRequest request)
     {
@@ -55,7 +57,7 @@ public class VatRegistrationController : ControllerBase
 
                 break;
             default:
-                throw new Exception("Country not supported");
+                throw new CountryNotSupportedException();
         }
 
         return Ok();
