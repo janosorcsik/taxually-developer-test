@@ -33,7 +33,7 @@ public class VatRegistrationController : ControllerBase
         {
             case "GB":
                 // UK has an API to register for a VAT number
-                await _taxuallyHttpClient.PostAsync("https://api.uktax.gov.uk", request);
+                await _taxuallyHttpClient.PostAsync(Constants.UkApi, request);
                 break;
             case "FR":
                 // France requires an Excel spreadsheet to be uploaded to register for a VAT number
@@ -42,7 +42,7 @@ public class VatRegistrationController : ControllerBase
                 csvBuilder.AppendLine($"{request.CompanyName},{request.CompanyId}");
                 var csv = Encoding.UTF8.GetBytes(csvBuilder.ToString());
                 // Queue file to be processed
-                await _taxuallyQueueClient.EnqueueAsync("vat-registration-csv", csv);
+                await _taxuallyQueueClient.EnqueueAsync(Constants.CsvQueue, csv);
                 break;
             case "DE":
                 // Germany requires an XML document to be uploaded to register for a VAT number
@@ -52,7 +52,7 @@ public class VatRegistrationController : ControllerBase
                     serializer.Serialize(stringWriter, request);
                     var xml = stringWriter.ToString();
                     // Queue xml doc to be processed
-                    await _taxuallyQueueClient.EnqueueAsync("vat-registration-xml", xml);
+                    await _taxuallyQueueClient.EnqueueAsync(Constants.XmlQueue, xml);
                 }
 
                 break;
