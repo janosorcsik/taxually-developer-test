@@ -18,12 +18,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddVatRegistrationHandlers(this IServiceCollection services)
+    private static void AddVatRegistrationHandlers(this IServiceCollection services)
     {
         services.AddTransient<DeVatRegistrationHandler>();
         services.AddTransient<FrVatRegistrationHandler>();
         services.AddTransient<GbVatRegistrationHandler>();
-
-        return services;
     }
 }
