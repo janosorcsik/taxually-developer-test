@@ -27,7 +27,7 @@ namespace Taxually.TechnicalTest.Controllers
                     // France requires an excel spreadsheet to be uploaded to register for a VAT number
                     var csvBuilder = new StringBuilder();
                     csvBuilder.AppendLine("CompanyName,CompanyId");
-                    csvBuilder.AppendLine($"{request.CompanyName}{request.CompanyId}");
+                    csvBuilder.AppendLine($"{request.CompanyName},{request.CompanyId}");
                     var csv = Encoding.UTF8.GetBytes(csvBuilder.ToString());
                     var excelQueueClient = new TaxuallyQueueClient();
                     // Queue file to be processed
