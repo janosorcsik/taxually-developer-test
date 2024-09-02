@@ -20,7 +20,7 @@ public class VatRegistrationHandlerFactory
             "GB" => _serviceProvider.GetRequiredService<GbVatRegistrationHandler>(),
             "FR" => _serviceProvider.GetRequiredService<FrVatRegistrationHandler>(),
             "DE" => _serviceProvider.GetRequiredService<DeVatRegistrationHandler>(),
-            _ => throw new CountryNotSupportedException()
+            _ => throw new CountryNotSupportedException(request.Country)
         };
     }
 }

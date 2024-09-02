@@ -31,7 +31,8 @@ public class VatRegistrationHandlerFactoryTest
 
         var action = () => _vatRegistrationHandlerFactory.CreateHandler(request);
 
-        action.Should().Throw<CountryNotSupportedException>();
+        action.Should().Throw<CountryNotSupportedException>()
+            .And.Message.Should().Contain(request.Country);
     }
 
     [Theory]
