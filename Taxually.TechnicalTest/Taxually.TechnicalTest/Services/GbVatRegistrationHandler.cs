@@ -6,15 +6,15 @@ namespace Taxually.TechnicalTest.Services;
 
 public class GbVatRegistrationHandler : IVatRegistrationHandler
 {
-    private readonly ITaxuallyHttpClient _taxuallyHttpClient;
+    private readonly ITaxuallyHttpClient _httpClient;
 
-    public GbVatRegistrationHandler(ITaxuallyHttpClient taxuallyHttpClient)
+    public GbVatRegistrationHandler(ITaxuallyHttpClient httpClient)
     {
-        _taxuallyHttpClient = taxuallyHttpClient;
+        _httpClient = httpClient;
     }
 
     public Task Handle(VatRegistrationRequest request)
     {
-        return _taxuallyHttpClient.PostAsync(Constants.UkApi, request);
+        return _httpClient.PostAsync(Constants.UkApi, request);
     }
 }

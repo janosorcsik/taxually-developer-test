@@ -7,11 +7,11 @@ namespace Taxually.TechnicalTest.Services;
 
 public class DeVatRegistrationHandler : IVatRegistrationHandler
 {
-    private readonly ITaxuallyQueueClient _taxuallyQueueClient;
+    private readonly ITaxuallyQueueClient _queueClient;
 
-    public DeVatRegistrationHandler(ITaxuallyQueueClient taxuallyQueueClient)
+    public DeVatRegistrationHandler(ITaxuallyQueueClient queueClient)
     {
-        _taxuallyQueueClient = taxuallyQueueClient;
+        _queueClient = queueClient;
     }
 
     public async Task Handle(VatRegistrationRequest request)
@@ -21,6 +21,6 @@ public class DeVatRegistrationHandler : IVatRegistrationHandler
         serializer.Serialize(stringWriter, request);
         var xml = stringWriter.ToString();
 
-        await _taxuallyQueueClient.EnqueueAsync(Constants.XmlQueue, xml);
+        await _queueClient.EnqueueAsync(Constants.XmlQueue, xml);
     }
 }

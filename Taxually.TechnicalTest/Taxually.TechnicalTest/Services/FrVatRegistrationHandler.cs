@@ -7,11 +7,11 @@ namespace Taxually.TechnicalTest.Services;
 
 public class FrVatRegistrationHandler : IVatRegistrationHandler
 {
-    private readonly ITaxuallyQueueClient _taxuallyQueueClient;
+    private readonly ITaxuallyQueueClient _queueClient;
 
-    public FrVatRegistrationHandler(ITaxuallyQueueClient taxuallyQueueClient)
+    public FrVatRegistrationHandler(ITaxuallyQueueClient queueClient)
     {
-        _taxuallyQueueClient = taxuallyQueueClient;
+        _queueClient = queueClient;
     }
 
     public Task Handle(VatRegistrationRequest request)
@@ -20,7 +20,7 @@ public class FrVatRegistrationHandler : IVatRegistrationHandler
         csvBuilder.AppendLine("CompanyName,CompanyId");
         csvBuilder.AppendLine($"{request.CompanyName},{request.CompanyId}");
         var csv = Encoding.UTF8.GetBytes(csvBuilder.ToString());
-        // Queue file to be processed
-        return _taxuallyQueueClient.EnqueueAsync(Constants.CsvQueue, csv);
+
+        return _queueClient.EnqueueAsync(Constants.CsvQueue, csv);
     }
 }
